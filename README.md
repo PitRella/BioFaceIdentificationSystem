@@ -193,8 +193,14 @@ BioFaceIdentificationSystem/
 ## Полезные команды
 
 ```bash
-# Запуск приложения
-python main.py
+# Запуск GUI приложения
+# ВАЖНО: Сначала запустите скрипт исправления Qt плагинов (один раз)
+uv run python fix_qt_plugins.py
+
+# Затем запустите приложение
+uv run python main.py
+
+# Если возникают проблемы с Qt плагинами, см. UI_TROUBLESHOOTING.md
 
 # Работа с миграциями
 alembic revision --autogenerate -m "Описание изменений"

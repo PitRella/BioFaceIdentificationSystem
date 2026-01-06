@@ -85,7 +85,7 @@ class FaceIdentification:
         self,
         frame: np.ndarray,
         access_type: str = "identification"
-    ) -> List[IdentificationResult]:
+    ) -> List[tuple]:
         """Identify faces in a single frame.
         
         Args:
@@ -93,7 +93,7 @@ class FaceIdentification:
             access_type: Type of access ('verification' or 'identification')
         
         Returns:
-            List of IdentificationResult objects (one per detected face)
+            List of tuples: (face_location, IdentificationResult)
         """
         results = []
         
@@ -119,7 +119,7 @@ class FaceIdentification:
             for face_location in faces:
                 result = await self._identify_face(frame, face_location, access_type)
                 if result:
-                    results.append(result)
+                    results.append((face_location, result))
             
             return results
             
