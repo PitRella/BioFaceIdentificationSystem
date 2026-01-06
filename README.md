@@ -2,9 +2,9 @@
 
 Система для автоматической идентификации пользователей по биометрическим данным лица с использованием алгоритмов компьютерного зрения и машинного обучения.
 
-## Текущий статус: Мини-релиз 1 ✅
+## Текущий статус: Мини-релиз 2 ✅
 
-**Мини-релиз 1: Инфраструктура и БД** - завершен
+**Мини-релиз 1: Инфраструктура и БД** - завершен ✅
 - ✅ Структура проекта
 - ✅ Конфигурация (config.py)
 - ✅ PostgreSQL в Docker
@@ -12,6 +12,14 @@
 - ✅ Alembic миграции
 - ✅ Репозитории для CRUD операций
 - ✅ Логирование
+
+**Мини-релиз 2: Модули ядра** - завершен ✅
+- ✅ VideoCapture - захват видео с камеры
+- ✅ FaceDetector - детекция лиц (dlib HOG)
+- ✅ FaceEncoder - создание 128-мерных дескрипторов
+- ✅ QualityValidator - проверка качества изображений
+- ✅ FaceRecognizer - сравнение дескрипторов, верификация, идентификация
+- ✅ ImageProcessor - препроцессинг изображений
 
 ## Требования
 
@@ -73,6 +81,18 @@ python scripts/init_db.py
 python scripts/test_db.py
 ```
 
+### 6. Тестирование модулей ядра
+
+```bash
+python scripts/test_core_modules.py
+```
+
+**Примечание:** Для работы модулей ядра требуется:
+- Веб-камера (для тестов VideoCapture и FaceDetector)
+- Модель dlib для landmarks: `shape_predictor_68_face_landmarks.dat`
+  - Скачать: http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
+  - Распаковать и поместить в `models/` или `data/models/`
+
 ## Структура проекта
 
 ```
@@ -83,7 +103,13 @@ BioFaceIdentificationSystem/
 ├── docker-compose.yml     # Docker конфигурация
 ├── alembic.ini            # Конфигурация Alembic
 │
-├── core/                   # Модули ядра (следующий релиз)
+├── core/                   # Модули ядра
+│   ├── video_capture.py    # Захват видео
+│   ├── face_detector.py   # Детекция лиц
+│   ├── face_encoder.py    # Создание дескрипторов
+│   ├── face_recognizer.py # Распознавание
+│   ├── quality_validator.py # Валидация качества
+│   └── image_processor.py  # Препроцессинг
 ├── database/               # Работа с БД
 │   ├── models.py          # SQLAlchemy модели
 │   ├── connection.py      # Подключение к БД
@@ -93,13 +119,13 @@ BioFaceIdentificationSystem/
 │   └── logger.py          # Логирование
 ├── scripts/                # Вспомогательные скрипты
 │   ├── init_db.py         # Инициализация БД
-│   └── test_db.py         # Тест подключения
+│   ├── test_db.py         # Тест подключения
+│   └── test_core_modules.py # Тест модулей ядра
 └── alembic/               # Миграции БД
 ```
 
 ## Следующие мини-релизы
 
-- **Мини-релиз 2:** Модули ядра (VideoCapture, FaceDetector, FaceEncoder, QualityValidator, FaceRecognizer)
 - **Мини-релиз 3:** Интеграция модулей ядра с БД
 - **Мини-релиз 4:** Регистрация пользователей
 - **Мини-релиз 5:** Идентификация (консольная версия)
