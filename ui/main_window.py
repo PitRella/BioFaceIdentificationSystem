@@ -17,6 +17,7 @@ from PyQt5.QtGui import QFont
 from core.video_capture import VideoCapture
 from core.identification import FaceIdentification, IdentificationResult
 from ui.components.video_widget import VideoWidget
+from ui.admin_window import AdminWindow
 from config import FRAME_SKIP
 from utils.logger import setup_logger
 
@@ -157,6 +158,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.identification: Optional[FaceIdentification] = None
         self.video_thread: Optional[VideoProcessingThread] = None
+        self.admin_window: Optional[AdminWindow] = None
         self._init_ui()
         self._init_identification()
     
@@ -202,6 +204,11 @@ class MainWindow(QMainWindow):
         self.stop_button.setEnabled(False)
         self.stop_button.clicked.connect(self.stop_identification)
         button_layout.addWidget(self.stop_button)
+        
+        self.admin_button = QPushButton("Admin Panel")
+        self.admin_button.setMinimumHeight(40)
+        self.admin_button.clicked.connect(self.open_admin_panel)
+        button_layout.addWidget(self.admin_button)
         
         button_layout.addStretch()
         
@@ -328,7 +335,19 @@ class MainWindow(QMainWindow):
         QMessageBox.warning(self, "Error", error_message)
         self.stop_identification()
     
+    def open_admin_panel(self) -> None:
+        """Open administrative panel."""
+        if self.admin_window is None:
+            self.admin_window = AdminWindow(self)
+        
+        self.admin_window.show()
+        self.admin_window.raise_()
+        self.admin_window.activateWindow()
+        logger.info("Admin panel opened")
+    
     def closeEvent(self, event) -> None:
         """Handle window close event."""
         self.stop_identification()
+        if self.admin_window:
+            self.admin_window.close()
         event.accept()
