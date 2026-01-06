@@ -1,5 +1,12 @@
 """Script for testing database connection."""
 import asyncio
+import sys
+from pathlib import Path
+
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 from database.connection import AsyncSessionLocal, close_db
 from database.repositories import UserRepository, BiometricTemplateRepository
 from utils.logger import setup_logger

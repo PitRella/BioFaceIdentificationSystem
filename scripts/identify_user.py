@@ -2,6 +2,12 @@
 import asyncio
 import sys
 import cv2
+from pathlib import Path
+
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 from core.identification import FaceIdentification
 from core.video_capture import VideoCapture
 from config import FRAME_SKIP

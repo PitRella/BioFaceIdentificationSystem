@@ -1,4 +1,11 @@
 """Test script for core modules."""
+import sys
+from pathlib import Path
+
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 import cv2
 import numpy as np
 from core.video_capture import VideoCapture

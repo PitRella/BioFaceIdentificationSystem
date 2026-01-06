@@ -1,4 +1,5 @@
 """Face encoding module for creating biometric descriptors."""
+import os
 import face_recognition
 import cv2
 import numpy as np
@@ -6,6 +7,17 @@ from typing import List, Optional
 from utils.logger import setup_logger
 
 logger = setup_logger()
+
+# Try to set face_recognition models path if available
+try:
+    import face_recognition_models
+    import pathlib
+    models_path = pathlib.Path(face_recognition_models.__file__).parent / "models"
+    if models_path.exists():
+        os.environ.setdefault("FACE_RECOGNITION_MODELS_PATH", str(models_path))
+        logger.debug(f"Set FACE_RECOGNITION_MODELS_PATH to {models_path}")
+except ImportError:
+    logger.warning("face_recognition_models not found. face_recognition may not work properly.")
 
 
 class FaceEncoder:

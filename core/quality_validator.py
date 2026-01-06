@@ -1,7 +1,7 @@
 """Image quality validation module."""
 import cv2
 import numpy as np
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
 from dataclasses import dataclass
 from config import FACE_ANGLE_THRESHOLD, SHARPNESS_THRESHOLD
 from utils.logger import setup_logger
